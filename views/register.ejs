@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h3>Navn</h3>
+        <input type="text" placeholder="navn" name="navn" required>
+    </div>
+    <div>
+        <h3>Epost</h3>
+        <input type="email" placeholder="epost" name="epost" required>
+    </div>
+    <div>
+        <h3>Passord</h3>
+        <input type="password" placeholder="passord" name="passord" required>
+    </div>
+    <div>
+        <h3>Confirmpassord</h3>
+        <input type="password" placeholder="confirmpassord" name="confirmpassord" required>
+    </div>
+    <div>
+        <h3>Telefon</h3>
+        <input type="number" placeholder="telefon" name="telefon" required>
+    </div>
+    <form action="/login" method="POST">
+        <label for="sprak">Språkgruppe:</label>
+    <select name="sprak" id="sprak" required>
+      <% samiskeSprak.forEach(sprak => { %>
+        <option value="<%= sprak %>"><%= sprak %></option>
+      <% }) %>
+    </select>
+    
+</body>
+</html>
+

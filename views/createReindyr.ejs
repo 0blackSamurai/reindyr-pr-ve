@@ -16,13 +16,13 @@
     </div>
     <div>
         <label for="flokk">flokker:</label>
-<select name="flokk" id="flokk" required>
-  <% flokk.forEach(flokk => { %>
-    <option value="<%= flokk._id %>">
-      <%= flokk.navn %> - Buemerke: <%= flokk.buemerke %>
-    </option>
-  <% }) %>
-    </select>
+        <select name="flokk" id="flokk" required>
+          <% flokk.forEach(flokk => { %>
+            <option value="<%= flokk._id %>">
+              <%= flokk.navn %> - Buemerke: <%= flokk.Buemerke %>
+            </option>
+          <% }) %>
+        </select>
     </div>
     <div>
         <h3>Dato</h3>

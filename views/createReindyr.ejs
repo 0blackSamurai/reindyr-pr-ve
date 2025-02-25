@@ -18,7 +18,7 @@
         <label for="flokk">flokker:</label>
 <select name="flokk" id="flokk" required>
   <% flokk.forEach(flokk => { %>
-    <option value="<%= flokk.navn %>">
+    <option value="<%= flokk._id %>">
       <%= flokk.navn %> - Buemerke: <%= flokk.buemerke %>
     </option>
   <% }) %>

@@ -1,4 +1,3 @@
-
 const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
@@ -133,30 +132,21 @@ mongoose.connect(process.env.DB_URL)
   const dyrSchema = new Schema({
     navn: { type: String, required: true },
     Serienumber: { type: String, required: true, unique: true },
-    flokk: { type: mongoose.Schema.Types.ObjectId, ref: 'Flokk' },
+    flokk: { type: String, required: true },
     dato: { type: Date, required: true },
     eier: { type: mongoose.Schema.Types.ObjectId, ref: "Eier" },  
 });
 const Dyr = mongoose.model('Dyr', dyrSchema);
-
 const flokkSchema = new Schema({
     navn: { type: String, required: true },
-    Buemerke: {  type: String, required: true },
+    Buemerke: {  type:String, required:true},
     bilde: [String],
-    reindyr: [{ type: mongoose.Schema.Types.ObjectId, ref: "Dyr" }]
 });
+const Flokk = mongoose.model('flokk', flokkSchema);
 
-const Flokk = mongoose.model('Flokk', flokkSchema);
-
-
-app.get('/', async (req, res) => {
-    try {
-        const dyrs = await Dyr.find().populate('eier').populate('flokk'); // Populate flokk
-        res.render('index', { title: 'Home', dyrs, samiskeSprak });
-    } catch (error) {
-        console.error('Error fetching dyrs:', error);
-        res.status(500).send('Error fetching data');
-    }
+app.get("/",async (req, res) => {
+    const dyrs = await Dyr.find().populate('eier');
+    res.render("index", { title: "Home",dyrs,samiskeSprak,});
 });
 app.get("/register", (req, res) => {
     res.render("register", { title: "register",samiskeSprak});
@@ -257,35 +247,36 @@ app.post('/createflokk', upload.single('bilde'), async (req, res) => {
 });
 
 
+
 app.post('/createdyr', async (req, res) => {
     const { navn, Serienumber, flokk, dato } = req.body;
     const token = req.cookies.eier; 
-
+    
     try {
+        
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const eierId = decoded.eierId;
-
+        
+        console.log("Using eierId:", eierId);
+        
+        
         const existingDyr = await Dyr.findOne({ Serienumber });
         if (existingDyr) {
             return res.send('Det finnes en sånn allerede');
         }
-
-        const flokkData = await Flokk.findOne({ navn: flokk });
-        if (!flokkData) {
-            return res.status(400).send('Flokk ikke funnet');
-        }
-
-        const newDyr = new Dyr({
-            navn,
-            Serienumber,
-            flokk: flokkData._id, // Save the flokk's ObjectId
+        // const eierData = JSON.parse(req.cookies.user);
+        
+        const newDyr = new Dyr({ 
+            navn, 
+            Serienumber, 
+            flokk, 
             dato,
             eier: eierId
         });
-
+        
+        
         await newDyr.save();
-
-        return res.status(200).redirect('/');
+        return res.status(200).redirect('/dashboard');
     } catch (error) {
         console.error('Error saving dyr:', error);
         return res.status(500).send('Error saving dyr');
@@ -293,9 +284,9 @@ app.post('/createdyr', async (req, res) => {
 });
 
 
+
 const samiskeSprak = ['SØR', 'UME', 'PITE', 'LULE', 'NORD', 'ENARE', 'SKOLT', 'AKKALA', 'KILDIN', 'TER'];
 
 app.listen(process.env.PORT || 4000, () => {
     console.log("Server started on port 4000");
 });
-

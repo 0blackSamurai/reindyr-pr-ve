@@ -5,6 +5,7 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="/register" method="POST">
     <div>
         <h3>Navn</h3>
         <input type="text" placeholder="navn" name="navn" required>
@@ -25,13 +26,14 @@
         <h3>Telefon</h3>
         <input type="number" placeholder="telefon" name="telefon" required>
     </div>
-    <form action="/login" method="POST">
         <label for="sprak">Språkgruppe:</label>
     <select name="sprak" id="sprak" required>
       <% samiskeSprak.forEach(sprak => { %>
         <option value="<%= sprak %>"><%= sprak %></option>
       <% }) %>
     </select>
+    <button type="submit">register</button>
+</form>
     
 </body>
 </html>

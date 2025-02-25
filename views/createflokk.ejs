@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/createflokk" method="POST" enctype="multipart/form-data">
+
+    <div>
+        <h3>Navn</h3>
+        <input type="text" placeholder="navn" name="navn" required>
+    </div>
+    <div>
+        <h3>Buemerke</h3>
+        <input type="text" placeholder="Buemerke" name="Buemerke" required>
+    </div>
+    <div>
+        <h3>Buemerke bilde</h3>
+        <div class="file-upload">
+            <input type="file" name="bilde"class="fileInput" accept="image/png, image/jpeg, image/jpg" >
+        </div>>
+        <div>
+            <button type="submit">lag</button>
+        </div>
+</form>
+    
+</body>
+</html>
+

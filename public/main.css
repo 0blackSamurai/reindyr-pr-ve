@@ -1,0 +1,20 @@
+.dyrbox {
+    display: flex;
+    padding: 10px;
+    width: 40%;
+    margin-bottom: 30px;
+    border: 2px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+}
+a {
+    color: black;
+}
+.test {
+    background-color: black;
+}

@@ -5,7 +5,32 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="/createdyr" method="POST">
     <div>
+        <h3>Navn</h3>
+        <input type="text" placeholder="navn" name="navn" required>
     </div>
+    <div>
+        <h3>Serienumber</h3>
+        <input type="text" placeholder="Serienumber" name="Serienumber" required>
+    </div>
+    <div>
+        <label for="flokk">flokker:</label>
+<select name="flokk" id="flokk" required>
+  <% flokk.forEach(flokk => { %>
+    <option value="<%= flokk.navn %>">
+      <%= flokk.navn %> - Buemerke: <%= flokk.buemerke %>
+    </option>
+  <% }) %>
+    </select>
+    </div>
+    <div>
+        <h3>Dato</h3>
+        <input type="date" placeholder="dato" name="dato" required>
+    </div>
+    <button type="submit">lag</button>
+</form>
+    
 </body>
 </html>
+

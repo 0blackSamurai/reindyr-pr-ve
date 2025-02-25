@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/server.js"></script>
+    <link rel="stylesheet" href="/main.css">
+
+
+</head>
+<body>
+    <div>
+
+        <a href="/register">register</a>
+        <a href="/login">login</a>
+    </div>
+    <div class="search-bar">
+        <!-- Form for the search functionality -->
+        <form action="/search" method="GET">
+            <input type="text" name="query" class="search-input" placeholder="Search here" required>
+        </form>
+    </div>
+    </div class="test">
+    <% if (dyrs.length > 0) { %>
+        <% dyrs.forEach((dyrs, index) => { %>
+            <div class="dyrbox">
+
+                <h1>Eid av <%= dyrs.eier ? dyrs.eier.navn : 'Unknown' %></h1>
+                <h2><%= dyrs.navn%></h2>
+                <h2><%= dyrs.Serienumber%></h2>
+                <h2><%= dyrs.flokk ? dyrs.flokk.navn : 'Unknown Flokk' %></h2>
+                <h4><%= dyrs.dato%></h4>
+                
+            </div>
+           
+            <% }); %>
+        <% } else { %>
+         
+        <% } %>
+</body>
+</html>

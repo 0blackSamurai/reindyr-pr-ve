@@ -8,9 +8,9 @@ router.get('/mineTransaksjoner', isAuthenticated, transaksjonController.mineTran
 router.get('/startTransaksjon/:dyrId', isAuthenticated, transaksjonController.renderStartTransaksjon);
 router.post('/opprettTransaksjon', isAuthenticated, transaksjonController.opprettTransaksjon);
 router.post('/bekreftNyEier/:transaksjonId', isAuthenticated, transaksjonController.bekreftNyEier);
-router.post('/avslåNyEier/:transaksjonId', isAuthenticated, transaksjonController.avslåNyEier);
+router.post('/avslNyEier/:transaksjonId', isAuthenticated, transaksjonController.avslNyEier);
 router.post('/bekreftOpprinneligEier/:transaksjonId', isAuthenticated, transaksjonController.bekreftOpprinneligEier);
-router.post('/avslåOpprinneligEier/:transaksjonId', isAuthenticated, transaksjonController.avslåOpprinneligEier);
+router.post('/avslOpprinneligEier/:transaksjonId', isAuthenticated, transaksjonController.avslOpprinneligEier);
 router.post('/avbrytTransaksjon/:transaksjonId', isAuthenticated, transaksjonController.avbrytTransaksjon);
 
 module.exports = router;

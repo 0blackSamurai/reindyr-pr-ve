@@ -170,7 +170,7 @@ exports.bekreftOpprinneligEier = async (req, res) => {
   }
 };
 
-exports.avslåNyEier = async (req, res) => {
+exports.avslNyEier = async (req, res) => {
   try {
     const { transaksjonId } = req.params;
     const token = req.cookies.eier;
@@ -210,7 +210,7 @@ exports.avslåNyEier = async (req, res) => {
   }
 };
 
-exports.avslåOpprinneligEier = async (req, res) => {
+exports.avslOpprinneligEier = async (req, res) => {
   try {
     const { transaksjonId } = req.params;
     const token = req.cookies.eier;

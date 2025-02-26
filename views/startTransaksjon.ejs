@@ -1,0 +1,47 @@
+<!-- views/startTransaksjon.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <h1>Start Transaksjon</h1>
+    
+    <div class="dyr-info">
+        <h2>Reinsdyr: <%= dyr.navn %></h2>
+        <p>Serienummer: <%= dyr.Serienumber %></p>
+        <p>Flokk: <%= dyr.flokk ? dyr.flokk.navn : 'Ingen flokk' %></p>
+        <p>Nåværende eier: <%= dyr.eier.navn %></p>
+    </div>
+    
+    <form action="/opprettTransaksjon" method="POST">
+        <input type="hidden" name="dyrId" value="<%= dyr._id %>">
+        
+        <div class="form-group">
+            <label for="tilEierId">Velg ny eier:</label>
+            <select name="tilEierId" id="tilEierId" required>
+                <option value="">Velg eier</option>
+                <% eiere.forEach(eier => { %>
+                    <% if (eier._id.toString() !== dyr.eier._id.toString()) { %>
+                        <option value="<%= eier._id %>"><%= eier.navn %> (<%= eier.epost %>)</option>
+                    <% } %>
+                <% }) %>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="melding">Melding (valgfri):</label>
+            <textarea name="melding" id="melding" rows="3"></textarea>
+        </div>
+        
+        <button type="submit" class="btn">Start overføring</button>
+    </form>
+    
+    <div class="actions">
+        <a href="/mineFlokker" class="btn">Avbryt</a>
+    </div>
+</body>
+</html>

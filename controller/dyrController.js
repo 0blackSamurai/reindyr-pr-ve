@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 // Define samiskeSprak
 const samiskeSprak = ['SØR', 'UME', 'PITE', 'LULE', 'NORD', 'ENARE', 'SKOLT', 'AKKALA', 'KILDIN', 'TER'];
 
+// controller/dyrController.js (oppdatert createDyr-funksjon)
 exports.createDyr = async (req, res) => {
     const { navn, Serienumber, flokk, dato } = req.body;
     const token = req.cookies.eier; 
@@ -27,7 +28,8 @@ exports.createDyr = async (req, res) => {
         const newDyr = new Dyr({ 
             navn, 
             Serienumber, 
-            flokk, 
+            flokker: [flokk], // Lagre som array
+            hovedFlokk: flokk, // Sett hovedflokk
             dato,
             eier: eierId
         });

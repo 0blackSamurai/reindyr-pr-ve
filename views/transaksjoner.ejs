@@ -1,0 +1,109 @@
+<!-- views/transaksjoner.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <h1>Mine Transaksjoner</h1>
+    
+    <div class="transaksjoner">
+        <h2>Innkommende transaksjoner</h2>
+        <% 
+        const innkommende = transaksjoner.filter(t => 
+            t.tilEier._id.toString() === currentEierId && t.status === 'venter'
+        );
+        %>
+        
+        <% if (innkommende.length > 0) { %>
+            <div class="transaksjoner-list">
+                <% innkommende.forEach(transaksjon => { %>
+                    <div class="transaksjon-card">
+                        <h3>Reinsdyr: <%= transaksjon.dyr.navn %></h3>
+                        <p>Serienummer: <%= transaksjon.dyr.Serienumber %></p>
+                        <p>Fra eier: <%= transaksjon.fraEier.navn %></p>
+                        <p>Dato: <%= new Date(transaksjon.opprettetDato).toLocaleDateString() %></p>
+                        <% if (transaksjon.melding) { %>
+                            <p>Melding: <%= transaksjon.melding %></p>
+                        <% } %>
+                        
+                        <div class="transaksjon-actions">
+                            <form action="/bekreftTransaksjon/<%= transaksjon._id %>" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-success">Bekreft</button>
+                            </form>
+                            <form action="/avslåTransaksjon/<%= transaksjon._id %>" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">Avslå</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>Ingen ventende transaksjoner.</p>
+        <% } %>
+        
+        <h2>Utgående transaksjoner</h2>
+        <% 
+        const utgående = transaksjoner.filter(t => 
+            t.fraEier._id.toString() === currentEierId && t.status === 'venter'
+        );
+        %>
+        
+        <% if (utgående.length > 0) { %>
+            <div class="transaksjoner-list">
+                <% utgående.forEach(transaksjon => { %>
+                    <div class="transaksjon-card">
+                        <h3>Reinsdyr: <%= transaksjon.dyr.navn %></h3>
+                        <p>Serienummer: <%= transaksjon.dyr.Serienumber %></p>
+                        <p>Til eier: <%= transaksjon.tilEier.navn %></p>
+                        <p>Status: Venter på godkjenning</p>
+                        <p>Dato: <%= new Date(transaksjon.opprettetDato).toLocaleDateString() %></p>
+                        
+                        <div class="transaksjon-actions">
+                            <form action="/avbrytTransaksjon/<%= transaksjon._id %>" method="POST">
+                                <button type="submit" class="btn btn-warning">Avbryt</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>Ingen utgående transaksjoner.</p>
+        <% } %>
+        
+        <h2>Transaksjonshistorikk</h2>
+        <% 
+        const historikk = transaksjoner.filter(t => 
+            t.status !== 'venter'
+        );
+        %>
+        
+        <% if (historikk.length > 0) { %>
+            <div class="transaksjoner-list">
+                <% historikk.forEach(transaksjon => { %>
+                    <div class="transaksjon-card">
+                        <h3>Reinsdyr: <%= transaksjon.dyr.navn %></h3>
+                        <p>Serienummer: <%= transaksjon.dyr.Serienumber %></p>
+                        <p>Fra eier: <%= transaksjon.fraEier.navn %></p>
+                        <p>Til eier: <%= transaksjon.tilEier.navn %></p>
+                        <p>Status: <%= transaksjon.status %></p>
+                        <p>Opprettet: <%= new Date(transaksjon.opprettetDato).toLocaleDateString() %></p>
+                        <% if (transaksjon.fullførtDato) { %>
+                            <p>Fullført: <%= new Date(transaksjon.fullførtDato).toLocaleDateString() %></p>
+                        <% } %>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>Ingen transaksjonshistorikk.</p>
+        <% } %>
+    </div>
+    
+    <div class="actions">
+        <a href="/dashboard" class="btn">Tilbake til dashboard</a>
+    </div>
+</body>
+</html>

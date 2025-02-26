@@ -9,6 +9,8 @@ const authRoutes = require('./router/authRoutes');
 const dyrRoutes = require('./router/dyrRoutes');
 const flokkRoutes = require('./router/flokkRoutes');
 const homeRoutes = require('./router/homeRoutes');
+const transaksjonRoutes = require('./router/transaksjonRoutes');
+const eierRoutes = require('./router/eierRoutes');
 
 // Initialize app
 const app = express();
@@ -36,6 +38,8 @@ app.use('/', homeRoutes);
 app.use('/', authRoutes);
 app.use('/', dyrRoutes);
 app.use('/', flokkRoutes);
+app.use('/', transaksjonRoutes);
+app.use('/', eierRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

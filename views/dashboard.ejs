@@ -1,15 +1,23 @@
+<!-- views/dashboard.ejs (oppdatert) -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/main.css">
 </head>
 <body>
-    <a href="/createReindyr">legg reindyr i database</a>
-    <a href="/createflokk">lag flokk</a>
-    <form action="/logout" class="loggbox" method="get">
-        <button type="submit" class="loggout">Logout</button>
-      </form>
+    <h1>Dashboard</h1>
     
+    <div class="dashboard-menu">
+        <a href="/createReindyr">Legg reindyr i database</a>
+        <a href="/createflokk">Lag flokk</a>
+        <a href="/mineFlokker">Mine flokker</a>
+        <a href="/mineTranaksjoner">Mine transaksjoner</a>
+        
+        <form action="/logout" class="loggbox" method="get">
+            <button type="submit" class="loggout">Logout</button>
+        </form>
+    </div>
 </body>
 </html>

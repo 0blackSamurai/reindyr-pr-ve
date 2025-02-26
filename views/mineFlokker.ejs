@@ -1,0 +1,65 @@
+<!-- views/mineFlokker.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <h1>Mine Flokker</h1>
+    
+    <div class="filter-section">
+        <form action="/mineFlokker" method="GET">
+            <label for="flokk">Filtrer etter flokk:</label>
+            <select name="flokk" id="flokk">
+                <option value="">Alle flokker</option>
+                <% flokker.forEach(flokk => { %>
+                    <option value="<%= flokk._id %>" <%= valgtFlokkId === flokk._id.toString() ? 'selected' : '' %>>
+                        <%= flokk.navn %> - <%= flokk.Buemerke %>
+                    </option>
+                <% }) %>
+            </select>
+            <button type="submit">Filtrer</button>
+        </form>
+    </div>
+    
+    <% if (dyr.length > 0) { %>
+        <div class="dyrs-list">
+            <% dyr.forEach(dyr => { %>
+                <div class="dyr-card">
+                    <h2><%= dyr.navn %></h2>
+                    <p>Serienummer: <%= dyr.Serienumber %></p>
+                    <p>Flokk: <%= dyr.flokk ? dyr.flokk.navn : 'Ingen flokk' %></p>
+                    <p>Dato: <%= dyr.dato ? new Date(dyr.dato).toLocaleDateString() : 'Ukjent' %></p>
+                    
+                    <div class="dyr-actions">
+                        <a href="/internOverføring/<%= dyr._id %>" class="btn">Overfør til annen flokk</a>
+                        <a href="/startTransaksjon/<%= dyr._id %>" class="btn">Overfør til annen eier</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+        
+        <!-- Paginering -->
+        <div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="/mineFlokker?page=<%= currentPage - 1 %><%= valgtFlokkId ? '&flokk=' + valgtFlokkId : '' %>" class="btn">Forrige</a>
+            <% } %>
+            
+            <span>Side <%= currentPage %> av <%= totalPages %></span>
+            
+            <% if (currentPage < totalPages) { %>
+                <a href="/mineFlokker?page=<%= currentPage + 1 %><%= valgtFlokkId ? '&flokk=' + valgtFlokkId : '' %>" class="btn">Neste</a>
+            <% } %>
+        </div>
+    <% } else { %>
+        <p>Du har ingen reinsdyr i de valgte flokkene.</p>
+    <% } %>
+    
+    <div class="actions">
+        <a href="/dashboard" class="btn">Tilbake til dashboard</a>
+    </div>
+</body>
+</html>

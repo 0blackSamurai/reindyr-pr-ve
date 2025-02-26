@@ -1,0 +1,27 @@
+<!-- views/internOverføring.ejs (fortsettelse) -->
+<p>Nåværende flokk: <%= dyr.flokk ? dyr.flokk.navn : 'Ingen flokk' %></p>
+</div>
+
+<form action="/internOverføring" method="POST">
+    <input type="hidden" name="dyrId" value="<%= dyr._id %>">
+    
+    <div class="form-group">
+        <label for="nyFlokkId">Velg ny flokk:</label>
+        <select name="nyFlokkId" id="nyFlokkId" required>
+            <option value="">Velg flokk</option>
+            <% flokker.forEach(flokk => { %>
+                <% if (!dyr.flokk || flokk._id.toString() !== dyr.flokk._id.toString()) { %>
+                    <option value="<%= flokk._id %>"><%= flokk.navn %> - <%= flokk.Buemerke %></option>
+                <% } %>
+            <% }) %>
+        </select>
+    </div>
+    
+    <button type="submit" class="btn">Overfør til ny flokk</button>
+</form>
+
+<div class="actions">
+    <a href="/mineFlokker" class="btn">Avbryt</a>
+</div>
+</body>
+</html>

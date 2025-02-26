@@ -5,53 +5,42 @@ const jwt = require('jsonwebtoken');
 const samiskeSprak = ['SØR', 'UME', 'PITE', 'LULE', 'NORD', 'ENARE', 'SKOLT', 'AKKALA', 'KILDIN', 'TER'];
 
 exports.mineFlokker = async (req, res) => {
-  try {
-    const token = req.cookies.eier;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const eierId = decoded.eierId;
-    
-    const dyr = await Dyr.find({ eier: eierId }).populate('flokk');
-    
-    const flokkIds = [...new Set(dyr.map(d => d.flokk ? d.flokk._id.toString() : null).filter(id => id))];
-    
-   
-    const flokker = await Flokk.find({ _id: { $in: flokkIds } });
-    
-
-    const page = parseInt(req.query.page) || 1;
-    const perPage = 10;
-    
-   
-    const valgtFlokkId = req.query.flokk;
-    let filteredDyr = dyr;
-    
-    if (valgtFlokkId) {
-      filteredDyr = dyr.filter(d => d.flokk && d.flokk._id.toString() === valgtFlokkId);
+    try {
+      const token = req.cookies.eier;
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const eierId = decoded.eierId;
+      
+      // Hent alle dyr som tilhører innlogget eier
+      const dyr = await Dyr.find({ eier: eierId }).populate('flokk');
+      
+      // Hent alle unike flokk-IDer som eieren har dyr i
+      const flokkIds = [...new Set(dyr.map(d => d.flokk ? d.flokk._id.toString() : null).filter(id => id))];
+      
+      // Hent flokkdetaljer
+      const flokker = await Flokk.find({ _id: { $in: flokkIds } });
+      
+      // Filtrer dyr basert på valgt flokk (hvis oppgitt)
+      const valgtFlokkId = req.query.flokk;
+      let filteredDyr = dyr;
+      
+      if (valgtFlokkId) {
+        filteredDyr = dyr.filter(d => d.flokk && d.flokk._id.toString() === valgtFlokkId);
+      }
+      
+      res.render('mineFlokker', {
+        title: 'Mine Flokker', 
+        flokker,
+        dyr: filteredDyr,
+        valgtFlokkId,
+        samiskeSprak
+      });
+    } catch (error) {
+      console.error('Feil ved henting av flokker:', error);
+      res.status(500).send('En feil oppstod');
     }
-    
+  };
 
-    const totalDyr = filteredDyr.length;
-    const totalPages = Math.ceil(totalDyr / perPage);
-    const offset = (page - 1) * perPage;
-    
-    const paginatedDyr = filteredDyr.slice(offset, offset + perPage);
-    
-    res.render('mineFlokker', {
-      title: 'Mine Flokker', 
-      flokker,
-      dyr: paginatedDyr,
-      valgtFlokkId,
-      currentPage: page,
-      totalPages,
-      samiskeSprak
-    });
-  } catch (error) {
-    console.error('Feil ved henting av flokker:', error);
-    res.status(500).send('En feil oppstod');
-  }
-};
-
-exports.internOverføring = async (req, res) => {
+exports.internOverforing = async (req, res) => {
   try {
     const { dyrId, nyFlokkId } = req.body;
     const token = req.cookies.eier;
@@ -107,7 +96,7 @@ exports.internOverføring = async (req, res) => {
   }
 };
 
-exports.renderInternOverføring = async (req, res) => {
+exports.renderInternOverforing = async (req, res) => {
   try {
     const { dyrId } = req.params;
     const token = req.cookies.eier;
@@ -125,7 +114,7 @@ exports.renderInternOverføring = async (req, res) => {
       return res.status(403).send('Du eier ikke dette reinsdyret');
     }
     
-    res.render('internOverføring', {
+    res.render('internOverforing', {
       title: 'Overfør Reinsdyr Mellom Flokker',
       dyr,
       flokker,

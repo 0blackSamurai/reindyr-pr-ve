@@ -24,13 +24,43 @@
                 <h1>Eid av <%= dyrs.eier ? dyrs.eier.navn : 'Unknown' %></h1>
                 <h2><%= dyrs.navn %></h2>
                 <h2><%= dyrs.Serienumber %></h2>
-                <h2><%= dyrs.flokk ? dyrs.flokk.navn : 'Unknown Flokk' %></h2> <!-- Display flokk name properly -->
+                
+                <!-- Flokkinformasjon med buemerke -->
+                <% if (dyrs.flokk) { %>
+                    <div class="flokk-info">
+                        <h2>Flokk: <%= dyrs.flokk.navn %></h2>
+                        <p>Buemerke: <%= dyrs.flokk.Buemerke %></p>
+                        
+                        <!-- Vis buemerke-bilde hvis det finnes -->
+                        <% if (dyrs.flokk.bilde && dyrs.flokk.bilde.length > 0) { %>
+                            <div class="buemerke-image">
+                                <img src="<%= dyrs.flokk.bilde[0] %>" alt="Buemerke for <%= dyrs.flokk.navn %>" width="150">
+                            </div>
+                        <% } else { %>
+                            <p>Buemerke-bilde ikke tilgjengelig</p>
+                        <% } %>
+                    </div>
+                <% } else { %>
+                    <h2>Ikke tilknyttet noen flokk</h2>
+                <% } %>
+                
                 <h4><%= dyrs.dato %></h4>
+                
+                <!-- Vis om dyret har aktiv transaksjon -->
+                <% if (dyrs.aktivTransaksjon) { %>
+                    <div class="transaksjon-badge">
+                        Dette dyret har en aktiv transaksjon
+                    </div>
+                <% } %>
             </div>
         <% }); %>
     <% } else { %>
         <!-- No results found -->
+        <p>Ingen reinsdyr funnet</p>
     <% } %>
     </div>
+
+   
+       
 </body>
 </html>

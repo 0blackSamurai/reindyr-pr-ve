@@ -10,6 +10,7 @@
 <body>
     <h1>Mine Flokker</h1>
     
+    <!-- Flokk-filtreringsseksjon -->
     <div class="filter-section">
         <form action="/mineFlokker" method="GET">
             <label for="flokk">Filtrer etter flokk:</label>
@@ -25,6 +26,7 @@
         </form>
     </div>
     
+    <!-- Liste over dyr -->
     <% if (dyr.length > 0) { %>
         <div class="dyrs-list">
             <% dyr.forEach(dyr => { %>
@@ -34,25 +36,23 @@
                     <p>Flokk: <%= dyr.flokk ? dyr.flokk.navn : 'Ingen flokk' %></p>
                     <p>Dato: <%= dyr.dato ? new Date(dyr.dato).toLocaleDateString() : 'Ukjent' %></p>
                     
+                    <% if (dyr.aktivTransaksjon) { %>
+                        <div class="transaksjon-badge">
+                            Har aktiv transaksjon - se under "Mine transaksjoner"
+                        </div>
+                    <% } %>
+                    
                     <div class="dyr-actions">
-                        <a href="/internOverføring/<%= dyr._id %>" class="btn">Overfør til annen flokk</a>
-                        <a href="/startTransaksjon/<%= dyr._id %>" class="btn">Overfør til annen eier</a>
+                        <% if (!dyr.aktivTransaksjon) { %>
+                            <a href="/internOverforing/<%= dyr._id %>" class="btn">Overfør til annen flokk</a>
+                            <a href="/startTransaksjon/<%= dyr._id %>" class="btn">Overfør til annen eier</a>
+                        <% } else { %>
+                            <span class="disabled-btn">Overfør til annen flokk</span>
+                            <span class="disabled-btn">Overfør til annen eier</span>
+                        <% } %>
                     </div>
                 </div>
             <% }) %>
-        </div>
-        
-        <!-- Paginering -->
-        <div class="pagination">
-            <% if (currentPage > 1) { %>
-                <a href="/mineFlokker?page=<%= currentPage - 1 %><%= valgtFlokkId ? '&flokk=' + valgtFlokkId : '' %>" class="btn">Forrige</a>
-            <% } %>
-            
-            <span>Side <%= currentPage %> av <%= totalPages %></span>
-            
-            <% if (currentPage < totalPages) { %>
-                <a href="/mineFlokker?page=<%= currentPage + 1 %><%= valgtFlokkId ? '&flokk=' + valgtFlokkId : '' %>" class="btn">Neste</a>
-            <% } %>
         </div>
     <% } else { %>
         <p>Du har ingen reinsdyr i de valgte flokkene.</p>

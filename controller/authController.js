@@ -68,3 +68,6 @@ exports.renderLoginPage = (req, res) => {
 exports.renderDashboardPage = (req, res) => {
     res.render("dashboard", { title: "profile", samiskeSprak });
 };
+exports.renderFaqPage = (req, res) => {
+    res.render("Faq", { title: "Frequently Asked Questions", samiskeSprak });
+};

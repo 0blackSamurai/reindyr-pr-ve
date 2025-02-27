@@ -28,8 +28,7 @@ exports.createDyr = async (req, res) => {
         const newDyr = new Dyr({ 
             navn, 
             Serienumber, 
-            flokker: [flokk], // Lagre som array
-            hovedFlokk: flokk, // Sett hovedflokk
+            flokk,
             dato,
             eier: eierId
         });

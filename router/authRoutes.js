@@ -13,4 +13,6 @@ router.get('/logout', authController.logout);
 
 router.get('/dashboard', isAuthenticated, authController.renderDashboardPage);
 
+router.get('/Faq', authController.renderFaqPage);
+
 module.exports = router;

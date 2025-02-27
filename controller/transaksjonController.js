@@ -10,7 +10,7 @@ const samiskeSprak = ['SØR', 'UME', 'PITE', 'LULE', 'NORD', 'ENARE', 'SKOLT', '
 
 exports.opprettTransaksjon = async (req, res) => {
   try {
-    const { dyrId, tilEierId, melding } = req.body;
+    const { dyrId, tilEierId } = req.body;
     const token = req.cookies.eier;
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const fraEierId = decoded.eierId;
@@ -30,8 +30,7 @@ exports.opprettTransaksjon = async (req, res) => {
     const nyTransaksjon = new Transaksjon({
       dyr: dyrId,
       fraEier: fraEierId,
-      tilEier: tilEierId,
-      melding
+      tilEier: tilEierId
     });
 
     const lagretTransaksjon = await nyTransaksjon.save();

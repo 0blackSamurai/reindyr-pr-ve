@@ -71,3 +71,6 @@ exports.renderDashboardPage = (req, res) => {
 exports.renderFaqPage = (req, res) => {
     res.render("Faq", { title: "Frequently Asked Questions", samiskeSprak });
 };
+exports.renderDiagramPage = (req, res) => {
+    res.render("Diagram", { title: "ER-diagram" });
+};

@@ -196,6 +196,14 @@
     display: flex;
     justify-content: center;
   }
+  img{
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    border-radius: 4px;
+    border: 1px solid #eee;
+  }
   
   .buemerke-image img {
     max-width: 100%;

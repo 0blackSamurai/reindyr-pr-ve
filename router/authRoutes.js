@@ -15,4 +15,6 @@ router.get('/dashboard', isAuthenticated, authController.renderDashboardPage);
 
 router.get('/Faq', authController.renderFaqPage);
 
+router.get('/diagram', authController.renderDiagramPage);
+
 module.exports = router;
